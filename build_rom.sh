@@ -8,8 +8,7 @@ bldblu=${txtbld}$(tput setaf 4) #  blue
 txtrst=$(tput sgr0)             # Reset
 
 DEVICE="$1"
-THREADS="$2"
-CLEAN="$3"
+CLEAN="$2"
 
 # Time of build startup
 res1=$(date +%s.%N)
@@ -17,11 +16,6 @@ res1=$(date +%s.%N)
 # Setup environment
 echo -e "${bldblu}Setting up build environment ${txtrst}"
 . build/envsetup.sh
-
-# Setup ccache
-export USE_CCACHE=1
-export CCACHE_DIR="/home/travis/android/source/ccache"
-/usr/bin/ccache -M 20G
 
 # For building recovery
 # export BUILDING_RECOVERY=false
@@ -47,12 +41,12 @@ else
 fi
 
 # Remove previous build info
-echo -e "${bldblu}Removing previous build.prop ${txtrst}"
-rm $OUT/system/build.prop;
+# echo -e "${bldblu}Removing previous build.prop ${txtrst}"
+# rm $OUT/system/build.prop;
 
 # Start compilation
 echo -e "${bldblu}Starting build for $DEVICE ${txtrst}"
-mka tesla -j"$THREADS";
+mka tesla
 
 # Get elapsed time
 res2=$(date +%s.%N)
